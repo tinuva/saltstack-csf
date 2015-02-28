@@ -1,30 +1,5 @@
 csf:
-  # Default Ports in csf.conf
-  default-ports:
-    allow:
-      in:
-        ipv4:
-          tcp:
-            - 22
-          udp:
-            - 53
-        ipv6:
-          tcp:
-            - 22
-          udp:  
-            - 53
-      out:
-        ipv4:
-          tcp:
-            - 0:65535
-          udp:
-            - 0:65535
-        ipv6:
-          tcp:
-            - 0:65535
-          udp:
-            - 0:65535
-  # Common Ports in csf.{allow|deny}
+  # Common Subnets/Ports in csf.{allow|deny|ignore}
   common-ports:
     allow:
       nginx-http:
@@ -65,9 +40,9 @@ csf:
       emergency-subnet:
         desc: "Emergency Access"
         subnet: 11.0.0.0/8
-#Individual Server Config {allow|deny}
+#Individual Server Config {allow|deny|ignore}
   servers:
-    "Fiona":
+    "webserver":
       allow:
         nginx-http:
           desc: "NGINX HTTP"
@@ -107,5 +82,3 @@ csf:
         emergency-subnet:
           desc: "Emergency Access"
           subnet: 11.0.0.0/8
-      enabled: True
-      testing: True
