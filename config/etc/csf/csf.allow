@@ -1,0 +1,56 @@
+{%- if pillar['csf'] is defined -%}
+{%- if pillar['csf']['common-ports'] is defined -%}
+{% if pillar['csf']['common-ports']['allow'] is defined %}
+{%- for rulename, ruleopts in pillar['csf']['common-ports']['allow'].iteritems() %}
+#################################################
+## Rule: {{ rulename }}
+## {{ ruleopts['desc'] }}
+#################################################
+{% if ruleopts['subnet'] is defined -%}
+{{ ruleopts['subnet'] }}
+{%- else -%}
+{{ ruleopts['protocol'] }}|{{ ruleopts['direction'] }}|
+{%- endif -%}
+{%- if ruleopts['destination-port'] is defined -%}
+d={{ ruleopts['destination-port'] }}|
+{%- else -%}
+s={{ ruleopts['source-port'] }}|
+{%- endif -%}
+{%- if ruleopts['destination-address'] is defined -%}
+d={{ ruleopts['destination-address'] }}
+{%- else -%}
+s={{ ruleopts['source-address'] }}
+{%- endif -%}
+{%- endfor -%}
+{%- endif -%}
+{%- endif -%}
+
+## Server specific ports
+{%- if pillar['csf']['servers'] is defined -%}
+{%- if pillar['csf']['servers'][grains['id']] is defined -%}
+{%- if pillar['csf']['servers'][grains['id']]['allow'] is defined -%}
+{%- for rulename, ruleopts in pillar['csf']['servers'][grains['id']]['allow'].iteritems() %}
+#################################################
+## Rule: {{ rulename }}
+## {{ ruleopts['desc'] }}
+#################################################
+{% if ruleopts['subnet'] is defined -%}
+{{ ruleopts['subnet'] }}
+{%- else -%}
+{{ ruleopts['protocol'] }}|{{ ruleopts['direction'] }}|
+{%- endif -%}
+{%- if ruleopts['destination-port'] is defined -%}
+d={{ ruleopts['destination-port'] }}|
+{%- else -%}
+s={{ ruleopts['source-port'] }}|
+{%- endif -%}
+{%- if ruleopts['destination-address'] is defined -%}
+d={{ ruleopts['destination-address'] }}
+{%- else -%}
+s={{ ruleopts['source-address'] }}
+{%- endif -%}
+{%- endfor -%}
+{%- endif -%}
+{%- endif -%}
+{%- endif -%}
+{%- endif -%}

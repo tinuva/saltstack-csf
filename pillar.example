@@ -1,0 +1,111 @@
+csf:
+  # Default Ports in csf.conf
+  default-ports:
+    allow:
+      in:
+        ipv4:
+          tcp:
+            - 22
+          udp:
+            - 53
+        ipv6:
+          tcp:
+            - 22
+          udp:  
+            - 53
+      out:
+        ipv4:
+          tcp:
+            - 0:65535
+          udp:
+            - 0:65535
+        ipv6:
+          tcp:
+            - 0:65535
+          udp:
+            - 0:65535
+  # Common Ports in csf.{allow|deny}
+  common-ports:
+    allow:
+      nginx-http:
+        desc: "NGINX HTTP"
+        destination-port: 80
+        direction: in
+        protocol: tcp
+        destination-address: 127.0.0.1
+      nginx-https:
+        desc: "NGINX HTTPS"
+        destination-port: 443
+        direction: in
+        protocol: tcp
+        destination-address: 127.0.0.1
+      openssh-server:
+        desc: "SSH Access"
+        destination-port: 22
+        direction: in
+        protocol: tcp
+        source-address: 192.168.10.1
+      snmpd:
+        desc: "SNMPD Access"
+        destination-port: 53
+        direction: in
+        protocol: udp
+        source-address: 192.168.10.1
+      internal-net1:
+        desc: "Internal NET1 Access"
+        subnet: 10.0.0.0/8
+    deny:  
+      hacker-1:
+        desc: "Block hacker-1"
+        destination-port: 22
+        direction: in
+        protocol: tcp
+        source-address: 192.168.11.1
+    ignore:
+      emergency-subnet:
+        desc: "Emergency Access"
+        subnet: 11.0.0.0/8
+#Individual Server Config {allow|deny}
+  servers:
+    "Fiona":
+      allow:
+        nginx-http:
+          desc: "NGINX HTTP"
+          destination-port: 80
+          direction: in
+          protocol: tcp
+          destination-address: 127.0.0.2
+        nginx-https:
+          desc: "NGINX HTTPS"
+          destination-port: 443
+          direction: in
+          protocol: tcp
+          destination-address: 127.0.0.2
+        openssh-server:
+          desc: "SSH Access"
+          destination-port: 22
+          direction: in
+          protocol: tcp
+          source-address: 192.168.10.2
+        snmpd:
+          desc: "SNMPD Access"
+          destination-port: 53
+          direction: in
+          protocol: udp
+          source-address: 192.168.10.2
+        internal-net1:
+          desc: "Internal NET1 Access"
+          subnet: 10.0.0.0/8
+      deny:
+        hacker-1:
+          desc: "Block hacker-1"
+          destination-port: 22
+          direction: in
+          protocol: tcp
+          source-address: 192.168.11.2
+      ignore:
+        emergency-subnet:
+          desc: "Emergency Access"
+          subnet: 11.0.0.0/8
+      enabled: True
+      testing: True
